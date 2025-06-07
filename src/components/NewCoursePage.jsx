@@ -9,9 +9,9 @@ function NewCoursePage() {
         <div className="font-bold text-2xl text-blue-600 tracking-wide">CustomLearn</div>
       </header>
       <main className="flex flex-1 flex-col items-center justify-start px-4 py-8">
-        <h1 className="text-4xl font-bold text-blue-600 mb-8">Your Personalized Course</h1>
+        <h1 className="text-4xl font-bold text-blue-600 mb-8">{courseData?.course_name}</h1>
         <div className="w-full max-w-3xl">
-          {courseData && courseData.map((week) => (
+          {courseData?.roadmap?.map((week) => (
             <WeekContent key={week.week} week={week.week} items={week.items} />
           ))}
         </div>

@@ -11,103 +11,138 @@ function HomePage() {
 
   const demo_response = {
     "response": {
-      "roadmap": [
-        {
-          "week": 1,
-          "items": [
+        "course_name": "Project Management Essentials",
+        "roadmap": [
             {
-              "title": "What is Data Science?",
-              "type": "article",
-              "link": "https://datasciencehandbook.me/",
-              "expected_duration": "2 hours"
+                "week": 1,
+                "items": [
+                    {
+                        "title": "Introduction to Project Management",
+                        "type": "video",
+                        "link": "https://www.youtube.com/watch?v=4eM73Mml9Q0",
+                        "expected_duration": "2 hours"
+                    },
+                    {
+                        "title": "Project Management Basics",
+                        "type": "article",
+                        "link": "https://www.projectmanagement.com/articles/335411/What-is-Project-Management",
+                        "expected_duration": "1 hour"
+                    },
+                    {
+                        "title": "Project Management Framework",
+                        "type": "article",
+                        "link": "https://www.wikihow.com/Understand-the-Project-Management-Framework",
+                        "expected_duration": "2 hours"
+                    }
+                ],
+                "milestone": "Understand the basics of project management and its framework"
             },
             {
-              "title": "Python Basics",
-              "type": "article",
-              "link": "https://realpython.com/",
-              "expected_duration": "2 hours"
+                "week": 2,
+                "items": [
+                    {
+                        "title": "Project Initiation and Planning",
+                        "type": "video",
+                        "link": "https://www.youtube.com/watch?v=KuTtXz6TjQo",
+                        "expected_duration": "2 hours"
+                    },
+                    {
+                        "title": "Project Scope Management",
+                        "type": "article",
+                        "link": "https://www.projectmanagement.com/articles/335411/Project-Scope-Management",
+                        "expected_duration": "1 hour"
+                    },
+                    {
+                        "title": "Project Schedule Management",
+                        "type": "article",
+                        "link": "https://www.wikihow.com/Create-a-Project-Schedule",
+                        "expected_duration": "2 hours"
+                    }
+                ],
+                "milestone": "Understand project initiation, planning, scope, and schedule management"
             },
             {
-              "title": "Python Basics Exercises",
-              "type": "project",
-              "link": "https://leetcode.com/",
-              "expected_duration": "1 hour"
+                "week": 3,
+                "items": [
+                    {
+                        "title": "Project Cost Management",
+                        "type": "video",
+                        "link": "https://www.youtube.com/watch?v=4eM73Mml9Q0",
+                        "expected_duration": "2 hours"
+                    },
+                    {
+                        "title": "Project Quality Management",
+                        "type": "article",
+                        "link": "https://www.projectmanagement.com/articles/335411/Project-Quality-Management",
+                        "expected_duration": "1 hour"
+                    },
+                    {
+                        "title": "Project Resource Management",
+                        "type": "article",
+                        "link": "https://www.wikihow.com/Manage-Project-Resources",
+                        "expected_duration": "2 hours"
+                    }
+                ],
+                "milestone": "Understand project cost, quality, and resource management"
+            },
+            {
+                "week": 4,
+                "items": [
+                    {
+                        "title": "Project Risk Management",
+                        "type": "video",
+                        "link": "https://www.youtube.com/watch?v=KuTtXz6TjQo",
+                        "expected_duration": "2 hours"
+                    },
+                    {
+                        "title": "Project Communication Management",
+                        "type": "article",
+                        "link": "https://www.projectmanagement.com/articles/335411/Project-Communication-Management",
+                        "expected_duration": "1 hour"
+                    },
+                    {
+                        "title": "Project Stakeholder Management",
+                        "type": "article",
+                        "link": "https://www.wikihow.com/Identify-and-Analyze-Stakeholders",
+                        "expected_duration": "2 hours"
+                    }
+                ],
+                "milestone": "Understand project risk, communication, and stakeholder management"
+            },
+            {
+                "week": 5,
+                "items": [
+                    {
+                        "title": "Project Monitoring and Control",
+                        "type": "video",
+                        "link": "https://www.youtube.com/watch?v=4eM73Mml9Q0",
+                        "expected_duration": "2 hours"
+                    },
+                    {
+                        "title": "Project Closure",
+                        "type": "article",
+                        "link": "https://www.projectmanagement.com/articles/335411/Project-Closure",
+                        "expected_duration": "1 hour"
+                    },
+                    {
+                        "title": "Final Project Management Review",
+                        "type": "article",
+                        "link": "https://www.wikihow.com/Review-and-Evaluate-a-Project",
+                        "expected_duration": "2 hours"
+                    }
+                ],
+                "milestone": "Understand project monitoring, control, and closure"
             }
-          ]
-        },
-        {
-          "week": 2,
-          "items": [
-            {
-              "title": "Data Preprocessing",
-              "type": "article",
-              "link": "https://towardsdatascience.com/",
-              "expected_duration": "2 hours"
-            },
-            {
-              "title": "Data Visualization",
-              "type": "article",
-              "link": "https://flowingdata.com/",
-              "expected_duration": "2 hours"
-            },
-            {
-              "title": "Data Visualization Project",
-              "type": "project",
-              "link": "https://www.kaggle.com/",
-              "expected_duration": "3 hours"
-            }
-          ]
-        },
-        {
-          "week": 3,
-          "items": [
-            {
-              "title": "Introduction to Machine Learning",
-              "type": "article",
-              "link": "https://machinelearningmastery.com/",
-              "expected_duration": "2 hours"
-            },
-            {
-              "title": "Supervised Learning",
-              "type": "article",
-              "link": "https://www.coursera.org/",
-              "expected_duration": "2 hours"
-            },
-            {
-              "title": "Supervised Learning Exercises",
-              "type": "project",
-              "link": "https://www.kaggle.com/",
-              "expected_duration": "3 hours"
-            }
-          ]
-        },
-        {
-          "week": 4,
-          "items": [
-            {
-              "title": "Data Science Project Development",
-              "type": "project",
-              "link": "https://www.kaggle.com/",
-              "expected_duration": "8 hours"
-            },
-            {
-              "title": "Data Science Review",
-              "type": "article",
-              "link": "https://datasciencehandbook.me/",
-              "expected_duration": "1 hour"
-            }
-          ]
-        }
-      ]
+        ]
     }
-  }
+}
 
   const onFinish = async (values) => {
     setLoading(true)
     try {
       // Simulate backend call and redirect
       setTimeout(() => {
-        setCourseData(demo_response.response.roadmap)
+        setCourseData(demo_response.response)
         navigate("/newCourse")
         setLoading(false)
       }, 500)
