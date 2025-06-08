@@ -1,1 +1,5 @@
 @import "tailwindcss";
+
+.ant-collapse-expand-icon{
+    margin-top : 0.5rem
+}
