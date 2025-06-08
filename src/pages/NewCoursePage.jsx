@@ -4,17 +4,17 @@ import WeekContent from "../components/WeekContent"
 import TopBar from "../components/TopBar"
 import { useState } from "react"
 import axios from "axios"
+import { notification } from "antd";
 
 function NewCoursePage() {
   const courseData = useCourseStore((state) => state.courseData)
   const user = useUserStore((state) => state.user)
   const [saving, setSaving] = useState(false)
-  const [saveMsg, setSaveMsg] = useState("")
 
   const handleSaveCourse = async () => {
     if (!courseData) return;
     setSaving(true)
-    setSaveMsg("")
+
     // Prepare request body: just courseData + email field
     const reqBody = {
       ...courseData,
@@ -24,13 +24,30 @@ function NewCoursePage() {
       const res = await axios.post("http://127.0.0.1:8000/courses/add", reqBody, {
         headers: { "Content-Type": "application/json" }
       })
+      const courseId = res.data?._id
+      if (courseId) {
+        useCourseStore.getState().setCourseId(courseId)
+        window.location.href = `/myCourses/${courseId}`
+      }
       if (res.status === 200 || res.status === 201) {
-        setSaveMsg("Course saved!")
+        notification.success({
+          message: "Success",
+          description: "Course saved!",
+          placement: "topRight",
+        });
       } else {
-        setSaveMsg("Failed to save course.")
+        notification.error({
+          message: "Error",
+          description: "Failed to save course.",
+          placement: "topRight",
+        });
       }
     } catch (e) {
-      setSaveMsg("Error saving course.")
+      notification.error({
+        message: "Error",
+        description: "Error saving course.",
+        placement: "topRight",
+      });
     }
     setSaving(false)
   }
@@ -62,7 +79,6 @@ function NewCoursePage() {
               </button>
             )}
           </div>
-          {saveMsg && <div className="text-center mt-2 text-sm text-gray-700">{saveMsg}</div>}
         </div>
       </main>
     </div>

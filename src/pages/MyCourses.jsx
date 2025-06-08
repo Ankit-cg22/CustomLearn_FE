@@ -3,7 +3,7 @@ import useUserStore from "../store/userStore";
 import { useEffect, useState } from "react";
 import axios from "axios";
 import { Menu } from "antd";
-import { BookOutlined } from "@ant-design/icons";
+import { BookOutlined, PlusOutlined } from "@ant-design/icons";
 import { useNavigate } from "react-router-dom";
 import useCourseStore from "../store/courseStore";
 import WeekContent from "../components/WeekContent";
@@ -58,19 +58,34 @@ function MyCourses() {
     return (
         <div className="min-h-screen bg-gray-100 flex flex-col">
             <TopBar />
-            <div className="flex flex-1">
-                <Menu
-                    style={{ width: 300 }}
-                    items={courses.map((course) => ({
-                        key: course._id,
-                        label: course.course_name,
-                        icon: <BookOutlined />,
-                        onClick: () => handleCourseClick(course._id),
-                    }))}
-                    selectedKeys={[courseId]}
-                />
-                <main className="flex flex-1 flex-col items-center justify-center px-4 py-8">
-                    <div className="w-full max-w-3xl">
+            <div className="flex flex-1 overflow-hidden">
+                <div className="w-64 bg-white shadow flex flex-col justify-between">
+                    <div className="overflow-y-auto">
+                        <Menu
+                            style={{ width: "100%" }}
+                            items={[
+                                ...courses.map((course) => ({
+                                    key: course._id,
+                                    label: course.course_name,
+                                    icon: <BookOutlined />,
+                                    onClick: () => handleCourseClick(course._id),
+                                })),
+                            ]}
+                            selectedKeys={[courseId]}
+                        />
+                    </div>
+                    <div className="p-4">
+                        <button
+                            className="w-full bg-blue-600 hover:bg-blue-700 text-white font-semibold px-4 py-2 rounded transition"
+                            onClick={() => navigate("/")}
+                        >
+                            <PlusOutlined /> Create New Course
+                        </button>
+                    </div>
+                </div>
+                <main className="flex flex-1 flex-col items-center justify-center px-4 py-8 inline-block overflow-auto" style ={{ maxHeight : "calc(100vh - 4rem)"}}>
+                    <div className="flex flex-1 flex-col items-center justify-center px-4 py-8">
+                    <div className="w-full max-w-3xl inline-block">
                         {loading ? (
                             <div className="text-gray-500 text-lg">Loading...</div>
                         ) : error ? (
@@ -89,6 +104,7 @@ function MyCourses() {
                                 Select a course from the sidebar to view details.
                             </div>
                         )}
+                    </div>
                     </div>
                 </main>
             </div>

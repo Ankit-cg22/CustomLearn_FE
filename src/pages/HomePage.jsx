@@ -1,4 +1,4 @@
-import { useState } from "react"
+import { useEffect, useState } from "react"
 import { useNavigate } from "react-router-dom"
 import CourseDetailsForm from "../components/CourseDetailsForm"
 import TitleCard from "../components/TitleCard"
@@ -10,7 +10,7 @@ import useUserStore from "../store/userStore"
 function HomePage() {
   const [loading, setLoading] = useState(false)
   const navigate = useNavigate()
-  const setCourseData = useCourseStore((state) => state.setCourseData)
+  const {setCourseData , setCourseId} = useCourseStore((state) => state)
   const user = useUserStore((state) => state.user)
   const [saving, setSaving] = useState(false)
   const [saveMsg, setSaveMsg] = useState("")
@@ -19,7 +19,7 @@ function HomePage() {
     setLoading(true)
     try {
       // Call backend to generate course
-      const res = await axios.post("http://127.0.0.1:8000/generate", { params: values })
+      const res = await axios.post("http://127.0.0.1:8000/generate", { ...values })
       if (res.data) {
         setCourseData(res.data.response)
         navigate("/newCourse")
@@ -63,6 +63,11 @@ function HomePage() {
     setSaving(false)
   }
 
+  useEffect(() => {
+    setCourseData({})
+    setCourseId(null);
+  }, [])
+
   return (
     <div className="min-h-screen bg-gray-100 flex flex-col">
       <TopBar/>
@@ -75,7 +80,6 @@ function HomePage() {
             <CourseDetailsForm onFinish={onFinish} loading={loading} />
           </div>
         </div>
-        {/* Removed course preview and save button from HomePage as requested */}
       </main>
     </div>
   )

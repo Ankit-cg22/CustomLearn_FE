@@ -27,7 +27,6 @@ const WeekContent = ({ weekIdx }) => {
         };
       }),
     };
-    console.log(updatedCourseData, "updatedCourseData")
     setCourseData(updatedCourseData);
   }
   console.log("courseData",items)
