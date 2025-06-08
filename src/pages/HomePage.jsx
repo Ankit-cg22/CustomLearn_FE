@@ -1,8 +1,9 @@
 import { useState } from "react"
 import { useNavigate } from "react-router-dom"
-import CourseDetailsForm from "./CourseDetailsForm"
-import TitleCard from "./TitleCard"
+import CourseDetailsForm from "../components/CourseDetailsForm"
+import TitleCard from "../components/TitleCard"
 import useCourseStore from "../store/courseStore"
+import TopBar from "../components/TopBar"
 
 function HomePage() {
   const [loading, setLoading] = useState(false)
@@ -154,9 +155,7 @@ function HomePage() {
 
   return (
     <div className="min-h-screen bg-gray-100 flex flex-col">
-      <header className="bg-white shadow flex items-center px-8 h-16">
-        <div className="font-bold text-2xl text-blue-600 tracking-wide">CustomLearn</div>
-      </header>
+      <TopBar/>
       <main className="flex flex-1 items-center justify-center">
         <div className="flex w-full max-w-5xl gap-12 justify-center items-center px-4 py-8">
           <div className="flex-1 text-left">
