@@ -3,19 +3,21 @@ import GoogleLoginCard from "../components/GoogleLoginCard";
 import { jwtDecode } from "jwt-decode";
 import useUserStore from "../store/userStore";
 import { useEffect } from "react";
-import { useNavigate } from "react-router-dom";
-import { ArrowRightOnRectangleIcon, UserCircleIcon } from "@heroicons/react/24/outline";
+import { useNavigate, useLocation } from "react-router-dom";
 
 const Login = () => {
   const setUser = useUserStore((state) => state.setUser);
   const clearUser = useUserStore((state) => state.clearUser);
   const user = useUserStore((state) => state.user);
   const navigate = useNavigate();
+  const location = useLocation();
+  const params = new URLSearchParams(location.search);
+  const redirectPath = params.get("redirect") || "/";
 
   useEffect(() => {
     // Redirect to home if already logged in
     if (user) {
-      navigate("/", { replace: true });
+      navigate(redirectPath, { replace: true });
     }
     // On mount, clear any expired user
     if (user && user.exp) {
@@ -36,14 +38,12 @@ const Login = () => {
       exp: decodedData.exp,
       credential: credentialResponse.credential,
     });
+
+    navigate(redirectPath, { replace: true });
   };
 
   const handleLoginError = (error) => {
     console.error("Login Failed:", error);
-  };
-
-  const handleLogout = () => {
-    clearUser();
   };
 
   return (

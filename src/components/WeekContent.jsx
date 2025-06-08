@@ -43,7 +43,6 @@ const WeekContent = ({ weekIdx }) => {
     setCourseData(updatedCourseData);
     updateCourseContent(updatedCourseData);
   }
-  console.log("courseData",items)
   const completed = useMemo(() => checked.filter(Boolean).length , [checked])
   const progress = useMemo(() => items.length ? Math.round((completed / items.length) * 100) : 0 , [completed, items.length]);
 

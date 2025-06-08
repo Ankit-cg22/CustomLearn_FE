@@ -32,6 +32,7 @@ function MyCourses() {
     // Set courseId from URL param if present
     useEffect(() => {
         if (paramCourseId && paramCourseId !== courseId) {
+            setCourseData(null)
             setCourseId(paramCourseId);
         }
     }, [paramCourseId, setCourseId, courseId]);
@@ -39,6 +40,7 @@ function MyCourses() {
     // Fetch course data when courseId changes
     useEffect(() => {
         if (courseId) {
+            setLoading(true);
             axios
                 .get(`http://127.0.0.1:8000/courses/courseById/${courseId}`)
                 .then((res) => {
@@ -46,7 +48,10 @@ function MyCourses() {
                 })
                 .catch(() => {
                     console.error("Failed to load course details.");
-                });
+                })
+                .finally(()=>{
+                    setLoading(false);
+                })
         }
     }, [courseId, setCourseData]);
 
