@@ -6,6 +6,7 @@ import useCourseStore from "../store/courseStore"
 import TopBar from "../components/TopBar"
 import axios from "axios"
 import useUserStore from "../store/userStore"
+import { BASE_BACKEND_URL } from "../constants";
 
 function HomePage() {
   const [loading, setLoading] = useState(false)
@@ -19,7 +20,7 @@ function HomePage() {
     setLoading(true)
     try {
       // Call backend to generate course
-      const res = await axios.post("http://127.0.0.1:8000/generate", { ...values })
+      const res = await axios.post(`${BASE_BACKEND_URL}/generate`, { ...values })
       if (res.data) {
         setCourseData(res.data.response)
         navigate("/newCourse")
@@ -49,7 +50,7 @@ function HomePage() {
       email: user?.email || ""
     }
     try {
-      const res = await axios.post("http://127.0.0.1:8000/courses/add", reqBody, {
+      const res = await axios.post(`${BASE_BACKEND_URL}/courses/add`, reqBody, {
         headers: { "Content-Type": "application/json" }
       })
       if (res.status === 200 || res.status === 201) {

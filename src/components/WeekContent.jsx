@@ -3,6 +3,7 @@ import useCourseStore from "../store/courseStore"
 import { useEffect , useMemo, useState } from "react"
 import axios from "axios";
 import { Collapse } from "antd";
+import { BASE_BACKEND_URL } from "../constants";
 
 const WeekContent = ({ weekIdx }) => {
   const {courseData , setCourseData} = useCourseStore((state) => state)
@@ -19,7 +20,7 @@ const WeekContent = ({ weekIdx }) => {
   }, [courseData])
   const updateCourseContent = async (updatedCourseData) => {
     try {
-      await axios.put(`http://127.0.0.1:8000/courses/update/${updatedCourseData._id}`, updatedCourseData, {
+      await axios.put(`${BASE_BACKEND_URL}/courses/update/${updatedCourseData._id}`, updatedCourseData, {
         headers: { "Content-Type": "application/json" },
       });
     } catch (error) {

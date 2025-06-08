@@ -8,6 +8,7 @@ import { useNavigate } from "react-router-dom";
 import useCourseStore from "../store/courseStore";
 import WeekContent from "../components/WeekContent";
 import { useParams } from "react-router-dom";
+import { BASE_BACKEND_URL } from "../constants";
 
 function MyCourses() {
     const user = useUserStore((state) => state.user);
@@ -17,13 +18,12 @@ function MyCourses() {
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState("");
     const { courseId: paramCourseId } = useParams();
-
     useEffect(() => {
         if (!user?.email) return;
         setLoading(true);
         setError("");
         axios
-            .get(`http://127.0.0.1:8000/courses/coursesByEmail/${user.email}`)
+            .get(`${BASE_BACKEND_URL}/courses/coursesByEmail/${user.email}`)
             .then((res) => setCourses(res.data))
             .catch(() => setError("Failed to load courses."))
             .finally(() => setLoading(false));
@@ -42,7 +42,7 @@ function MyCourses() {
         if (courseId) {
             setLoading(true);
             axios
-                .get(`http://127.0.0.1:8000/courses/courseById/${courseId}`)
+                .get(`${BASE_BACKEND_URL}/courses/courseById/${courseId}`)
                 .then((res) => {
                     setCourseData(res.data);
                 })

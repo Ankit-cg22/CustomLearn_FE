@@ -5,6 +5,7 @@ import TopBar from "../components/TopBar"
 import { useState } from "react"
 import axios from "axios"
 import { notification } from "antd";
+import { BASE_BACKEND_URL } from "../constants";
 
 function NewCoursePage() {
   const courseData = useCourseStore((state) => state.courseData)
@@ -21,7 +22,7 @@ function NewCoursePage() {
       email: user?.email || ""
     }
     try {
-      const res = await axios.post("http://127.0.0.1:8000/courses/add", reqBody, {
+      const res = await axios.post(`${BASE_BACKEND_URL}/courses/add`, reqBody, {
         headers: { "Content-Type": "application/json" }
       })
       const courseId = res.data?._id
