@@ -1,17 +1,38 @@
-import { useState } from "react"
 import ActionItem from "./ActionItem"
-
-const WeekContent = ({ week, items }) => {
-  const [checked, setChecked] = useState(Array(items.length).fill(false))
-
+import useCourseStore from "../store/courseStore"
+import { useEffect , useMemo, useState } from "react"
+const WeekContent = ({ weekIdx }) => {
+  const {courseData , setCourseData} = useCourseStore((state) => state)
+  const [checked , setChecked] = useState([])
+  const [week , setWeek] = useState(0)
+  const [items , setItems] = useState([])
+  useEffect(() => {
+    const weekObj = courseData?.roadmap?.[weekIdx]
+    const items = weekObj?.items || []
+    const checked = items.map(item => !!item.checked)
+    setChecked(checked)
+    setItems(items)
+    setWeek(weekObj?.week || 0)
+  }, [courseData])
   const handleCheck = (idx) => {
-    const updated = [...checked]
-    updated[idx] = !updated[idx]
-    setChecked(updated)
+    const updatedCourseData = {
+      ...courseData,
+      roadmap: courseData.roadmap.map((week, wIdx) => {
+        if (wIdx !== weekIdx) return week;
+        return {
+          ...week,
+          items: week.items.map((item, i) =>
+            i === idx ? { ...item, checked: !item.checked } : item
+          ),
+        };
+      }),
+    };
+    console.log(updatedCourseData, "updatedCourseData")
+    setCourseData(updatedCourseData);
   }
-
-  const completed = checked.filter(Boolean).length
-  const progress = Math.round((completed / items.length) * 100)
+  console.log("courseData",items)
+  const completed = useMemo(() => checked.filter(Boolean).length , [checked])
+  const progress = useMemo(() => items.length ? Math.round((completed / items.length) * 100) : 0 , [completed, items.length]);
 
   return (
     <div className="bg-white rounded-xl shadow p-6 mb-8">
@@ -32,7 +53,7 @@ const WeekContent = ({ week, items }) => {
           <ActionItem
             key={idx}
             item={item}
-            checked={checked[idx]}
+            checked={item.checked || false}
             onCheck={() => handleCheck(idx)}
           />
         ))}

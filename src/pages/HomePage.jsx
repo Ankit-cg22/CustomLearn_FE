@@ -4,153 +4,63 @@ import CourseDetailsForm from "../components/CourseDetailsForm"
 import TitleCard from "../components/TitleCard"
 import useCourseStore from "../store/courseStore"
 import TopBar from "../components/TopBar"
+import axios from "axios"
+import useUserStore from "../store/userStore"
 
 function HomePage() {
   const [loading, setLoading] = useState(false)
   const navigate = useNavigate()
   const setCourseData = useCourseStore((state) => state.setCourseData)
-
-  const demo_response = {
-    "response": {
-        "course_name": "Project Management Essentials",
-        "roadmap": [
-            {
-                "week": 1,
-                "items": [
-                    {
-                        "title": "Introduction to Project Management",
-                        "type": "video",
-                        "link": "https://www.youtube.com/watch?v=4eM73Mml9Q0",
-                        "expected_duration": "2 hours"
-                    },
-                    {
-                        "title": "Project Management Basics",
-                        "type": "article",
-                        "link": "https://www.projectmanagement.com/articles/335411/What-is-Project-Management",
-                        "expected_duration": "1 hour"
-                    },
-                    {
-                        "title": "Project Management Framework",
-                        "type": "article",
-                        "link": "https://www.wikihow.com/Understand-the-Project-Management-Framework",
-                        "expected_duration": "2 hours"
-                    }
-                ],
-                "milestone": "Understand the basics of project management and its framework"
-            },
-            {
-                "week": 2,
-                "items": [
-                    {
-                        "title": "Project Initiation and Planning",
-                        "type": "video",
-                        "link": "https://www.youtube.com/watch?v=KuTtXz6TjQo",
-                        "expected_duration": "2 hours"
-                    },
-                    {
-                        "title": "Project Scope Management",
-                        "type": "article",
-                        "link": "https://www.projectmanagement.com/articles/335411/Project-Scope-Management",
-                        "expected_duration": "1 hour"
-                    },
-                    {
-                        "title": "Project Schedule Management",
-                        "type": "article",
-                        "link": "https://www.wikihow.com/Create-a-Project-Schedule",
-                        "expected_duration": "2 hours"
-                    }
-                ],
-                "milestone": "Understand project initiation, planning, scope, and schedule management"
-            },
-            {
-                "week": 3,
-                "items": [
-                    {
-                        "title": "Project Cost Management",
-                        "type": "video",
-                        "link": "https://www.youtube.com/watch?v=4eM73Mml9Q0",
-                        "expected_duration": "2 hours"
-                    },
-                    {
-                        "title": "Project Quality Management",
-                        "type": "article",
-                        "link": "https://www.projectmanagement.com/articles/335411/Project-Quality-Management",
-                        "expected_duration": "1 hour"
-                    },
-                    {
-                        "title": "Project Resource Management",
-                        "type": "article",
-                        "link": "https://www.wikihow.com/Manage-Project-Resources",
-                        "expected_duration": "2 hours"
-                    }
-                ],
-                "milestone": "Understand project cost, quality, and resource management"
-            },
-            {
-                "week": 4,
-                "items": [
-                    {
-                        "title": "Project Risk Management",
-                        "type": "video",
-                        "link": "https://www.youtube.com/watch?v=KuTtXz6TjQo",
-                        "expected_duration": "2 hours"
-                    },
-                    {
-                        "title": "Project Communication Management",
-                        "type": "article",
-                        "link": "https://www.projectmanagement.com/articles/335411/Project-Communication-Management",
-                        "expected_duration": "1 hour"
-                    },
-                    {
-                        "title": "Project Stakeholder Management",
-                        "type": "article",
-                        "link": "https://www.wikihow.com/Identify-and-Analyze-Stakeholders",
-                        "expected_duration": "2 hours"
-                    }
-                ],
-                "milestone": "Understand project risk, communication, and stakeholder management"
-            },
-            {
-                "week": 5,
-                "items": [
-                    {
-                        "title": "Project Monitoring and Control",
-                        "type": "video",
-                        "link": "https://www.youtube.com/watch?v=4eM73Mml9Q0",
-                        "expected_duration": "2 hours"
-                    },
-                    {
-                        "title": "Project Closure",
-                        "type": "article",
-                        "link": "https://www.projectmanagement.com/articles/335411/Project-Closure",
-                        "expected_duration": "1 hour"
-                    },
-                    {
-                        "title": "Final Project Management Review",
-                        "type": "article",
-                        "link": "https://www.wikihow.com/Review-and-Evaluate-a-Project",
-                        "expected_duration": "2 hours"
-                    }
-                ],
-                "milestone": "Understand project monitoring, control, and closure"
-            }
-        ]
-    }
-}
+  const user = useUserStore((state) => state.user)
+  const [saving, setSaving] = useState(false)
+  const [saveMsg, setSaveMsg] = useState("")
 
   const onFinish = async (values) => {
     setLoading(true)
     try {
-      // Simulate backend call and redirect
-      setTimeout(() => {
-        setCourseData(demo_response.response)
+      // Call backend to generate course
+      const res = await axios.post("http://127.0.0.1:8000/generate", { params: values })
+      if (res.data) {
+        setCourseData(res.data.response)
         navigate("/newCourse")
-        setLoading(false)
-      }, 500)
+      } else {
+        alert("Failed to generate course.")
+      }
     } catch (error) {
       console.error(error)
-      setLoading(false)
+      alert("Error generating course.")
     }
+    setLoading(false)
+  }
+
+  // Save course logic (same as in NewCoursePage)
+  const handleSaveCourse = async () => {
+    const courseData = useCourseStore.getState().courseData
+    if (!courseData) return;
+    setSaving(true)
+    setSaveMsg("")
+    const reqBody = {
+      skill: courseData.skill || courseData.course_name || "",
+      currentKnowledge: courseData.currentKnowledge || "",
+      hoursPerWeek: courseData.hoursPerWeek || courseData.hours_per_week || 0,
+      noOfWeeks: courseData.noOfWeeks || courseData.no_of_weeks || courseData.roadmap?.length || 0,
+      learningStyle: courseData.learningStyle || [],
+      learningGoal: courseData.learningGoal || "",
+      email: user?.email || ""
+    }
+    try {
+      const res = await axios.post("http://127.0.0.1:8000/courses/add", reqBody, {
+        headers: { "Content-Type": "application/json" }
+      })
+      if (res.status === 200 || res.status === 201) {
+        setSaveMsg("Course saved!")
+      } else {
+        setSaveMsg("Failed to save course.")
+      }
+    } catch (e) {
+      setSaveMsg("Error saving course.")
+    }
+    setSaving(false)
   }
 
   return (
@@ -165,6 +75,7 @@ function HomePage() {
             <CourseDetailsForm onFinish={onFinish} loading={loading} />
           </div>
         </div>
+        {/* Removed course preview and save button from HomePage as requested */}
       </main>
     </div>
   )
